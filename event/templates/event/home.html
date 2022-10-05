@@ -1,0 +1,45 @@
+{% extends 'event/base.html' %}
+{% block events_active %}active{% endblock %}
+
+{% block body %}
+<div class="events-container container-fluid" style="box-sizing: border-box">
+
+    <!-- Events -->
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Need to modify & style welcome statement -->
+            <h3>{% if query %}Searched Events{% else %}All Events{% endif %}</h3>
+        </div>
+        {% if events %}
+            {% for event in events %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <img src="{{ event.image.url }}" class="img-responsive">
+                        <div class="caption">
+                            <h2>{{ event.name }}</h2>
+                            <h4>{{ event.manager.first_name }} {{ event.manager.last_name }}</h4>
+                            <!-- View Details -->
+                            <a href="{% url 'event:detail' event.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+        {% elif query %}
+            <br>
+            <!-- Need to add style to error messages -->
+            <h3 class="error_message"><strong>Search did not match any event...</strong></h3>
+        {% else %}
+            <div class="col-sm-12">
+                <br>
+                <a href="{% url 'event:add_event' %}">
+                    <button type="button" class="btn btn-success">
+                        <span class="glyphicon glyphicon-plus"></span> Add an event
+                    </button>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

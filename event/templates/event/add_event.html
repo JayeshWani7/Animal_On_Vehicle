@@ -1,0 +1,65 @@
+{% extends 'event/base.html' %}
+{% block title %}Add a New Event{% endblock %}
+{% block events_active %}active{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-7">
+                <div class="panel panel-default">
+                    <h3>Add a New Event</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'event/form_template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Add Event</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("id_name").onblur = function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'event:event_name_validate' %}",
+                data: {
+                    'name': document.getElementById("id_name").value
+                },
+                success: function(response){
+                    if(response.valid === 'false'){
+                        alert("The name '" + document.getElementById("id_name").value + "' is already taken. Please choose another name for the event!");
+                        document.getElementById("id_name").value = "";
+                    }
+                }
+            })
+        };
+
+        document.getElementById("id_date").onblur = function (ev) {
+            ev.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'event:event_date_validate' %}",
+                data: {
+                    'date': document.getElementById("id_date").value
+                },
+                success: function(response){
+                    if(response.valid === 'false'){
+                        alert("This date: '" + document.getElementById("id_date").value + "' is invalid since it has already passed. Please enter a valid date!");
+                        document.getElementById("id_date").value = "";
+                    }
+                }
+            })
+        };
+    </script>
+
+{% endblock %}
