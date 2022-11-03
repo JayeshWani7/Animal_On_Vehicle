@@ -1,0 +1,8 @@
+# This is a comment
+# <x y z> coordinate, space separated
+0 0 0
+0 200 # can miss z-coordinate
+200 200 
+200 0
+# Will fill your end point for you
+# 0 0 0
