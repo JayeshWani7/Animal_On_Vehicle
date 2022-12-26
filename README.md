@@ -1,6 +1,6 @@
 # Major Project
 
-#Contributors:
+# Contributors:
   # Harsh Kanse
  #  Harsh Pol
   # Eeshan Dhuru
